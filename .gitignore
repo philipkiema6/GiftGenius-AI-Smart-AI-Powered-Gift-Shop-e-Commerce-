@@ -2,9 +2,12 @@
 backend_venv/
 __pycache__/
 *.pyc
-backend/db.sqlite3
+*.db
+**/db.sqlite3
 backend/staticfiles/
 backend/media/
+venv
+.venv
 
 # Node / React
 frontend/node_modules/

@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "giftgenius"
+license = "MIT"
+version = "0.1.0"
+description = ""
+package-mode = false
+readme = "README.md"
+authors = ["Cowan K. Wekesa <cowannwekesa@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^6.0.6"
+djangorestframework = "^3.17.1"
+djangorestframework-simplejwt = "^5.5.1"
+django-cors-headers = "^4.9.0"
+django-filter = "^25.2"
+pillow = "^12.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
