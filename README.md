@@ -60,8 +60,9 @@ The API will be available at `http://127.0.0.1:8000/api/`. The Django admin is a
 
 | Role   | Username | Password   |
 |--------|----------|------------|
-| Admin  | `admin`  | `Admin@123` |
-| Demo user | `demo` | `Demo@123` |
+| Admin  | `admin`  | `GiftGenius2026!` |
+| Vendor | `just create account` | `----` |
+| User | `just create account` | `----` |
 
 Re-run `python manage.py seed_data` any time to reset demo data (it clears
 existing products/orders/reminders first).
