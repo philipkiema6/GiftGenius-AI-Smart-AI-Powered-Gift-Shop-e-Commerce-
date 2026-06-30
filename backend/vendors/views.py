@@ -3,6 +3,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from orders.models import OrderItem
 from products.models import Product
 from products.serializers import VendorProductSerializer
 from users.serializers import UserSerializer
@@ -15,6 +16,7 @@ from .serializers import (
     CompanySerializer,
     CompanyStatusSerializer,
     VendorRegisterSerializer,
+    VendorSaleItemSerializer,
 )
 
 
@@ -90,6 +92,24 @@ class VendorProductDetailView(generics.RetrieveUpdateDestroyAPIView):
         # Editing a listing sends it back for re-review rather than silently
         # keeping a stale admin approval on changed content.
         serializer.save(is_approved=False)
+
+
+class VendorSalesView(generics.ListAPIView):
+    """GET /api/vendors/sales/ - line items sold from the vendor's own
+    products, restricted to orders that have actually been paid for."""
+    serializer_class = VendorSaleItemSerializer
+    permission_classes = [IsVendor]
+    pagination_class = None
+
+    def get_queryset(self):
+        return (
+            OrderItem.objects.filter(
+                product__company=self.request.user.company,
+                order__status__in=['paid', 'processing', 'completed'],
+            )
+            .select_related('order', 'product')
+            .order_by('-order__created_at')
+        )
 
 
 class CompanyAdminListView(generics.ListAPIView):

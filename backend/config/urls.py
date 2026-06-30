@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/reminders/', include('reminders.urls')),
     path('api/recommendations/', include('recommendations.urls')),
     path('api/vendors/', include('vendors.urls')),
+    path('api/payments/', include('payments.urls')),
 ]
 
 if settings.DEBUG:

@@ -34,9 +34,12 @@ import AdminProducts from './pages/admin/AdminProducts'
 import AdminOrders from './pages/admin/AdminOrders'
 import AdminUsers from './pages/admin/AdminUsers'
 import AdminVendors from './pages/admin/AdminVendors'
+import AdminPayouts from './pages/admin/AdminPayouts'
 
 import VendorProfile from './pages/vendor/VendorProfile'
 import VendorProducts from './pages/vendor/VendorProducts'
+import VendorSales from './pages/vendor/VendorSales'
+import VendorEarnings from './pages/vendor/VendorEarnings'
 
 function App() {
   return (
@@ -76,6 +79,7 @@ function App() {
                   <Route path="/admin" element={<AdminOverview />} />
                   <Route path="/admin/products" element={<AdminProducts />} />
                   <Route path="/admin/vendors" element={<AdminVendors />} />
+                  <Route path="/admin/payouts" element={<AdminPayouts />} />
                   <Route path="/admin/orders" element={<AdminOrders />} />
                   <Route path="/admin/users" element={<AdminUsers />} />
                 </Route>
@@ -85,6 +89,8 @@ function App() {
                 <Route element={<VendorLayout />}>
                   <Route path="/vendor" element={<VendorProfile />} />
                   <Route path="/vendor/products" element={<VendorProducts />} />
+                  <Route path="/vendor/sales" element={<VendorSales />} />
+                  <Route path="/vendor/earnings" element={<VendorEarnings />} />
                 </Route>
               </Route>
 

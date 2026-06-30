@@ -23,7 +23,7 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'user', 'username', 'total_amount', 'status', 'payment_method',
             'full_name', 'phone_number', 'address', 'city', 'notes',
-            'mpesa_reference', 'items', 'created_at', 'updated_at',
+            'items', 'created_at', 'updated_at',
         )
         read_only_fields = ('id', 'user', 'total_amount', 'created_at', 'updated_at')
 
@@ -36,3 +36,23 @@ class CheckoutSerializer(serializers.Serializer):
     city = serializers.CharField(max_length=100)
     notes = serializers.CharField(required=False, allow_blank=True)
     payment_method = serializers.ChoiceField(choices=Order.PAYMENT_CHOICES)
+
+    def validate(self, attrs):
+        if attrs['payment_method'] == 'mpesa':
+            attrs['mpesa_phone'] = _normalize_mpesa_phone(attrs['phone_number'])
+        return attrs
+
+
+def _normalize_mpesa_phone(raw):
+    """Daraja requires the 2547XXXXXXXX format - accept whatever a Kenyan
+    shopper is likely to type and normalize it."""
+    digits = ''.join(ch for ch in raw if ch.isdigit())
+    if digits.startswith('254') and len(digits) == 12:
+        return digits
+    if digits.startswith('0') and len(digits) == 10:
+        return '254' + digits[1:]
+    if digits.startswith('7') and len(digits) == 9:
+        return '254' + digits
+    raise serializers.ValidationError(
+        {'phone_number': 'Enter a valid Kenyan phone number for M-Pesa, e.g. 0712345678.'}
+    )

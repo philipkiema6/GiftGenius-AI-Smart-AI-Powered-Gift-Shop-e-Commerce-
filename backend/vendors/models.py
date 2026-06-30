@@ -18,6 +18,17 @@ class Company(models.Model):
     contact_phone = models.CharField(max_length=20, blank=True)
     logo_url = models.URLField(blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+
+    PAYOUT_METHOD_CHOICES = [
+        ('mpesa', 'M-Pesa'),
+        ('paypal', 'PayPal'),
+    ]
+    payout_method = models.CharField(max_length=10, choices=PAYOUT_METHOD_CHOICES, default='mpesa')
+    mpesa_phone = models.CharField(
+        max_length=20, blank=True, help_text='Phone number to receive M-Pesa payouts, format 2547XXXXXXXX.',
+    )
+    paypal_email = models.EmailField(blank=True, help_text='PayPal email to receive payouts.')
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

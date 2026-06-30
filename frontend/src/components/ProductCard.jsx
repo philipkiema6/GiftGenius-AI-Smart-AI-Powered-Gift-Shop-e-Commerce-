@@ -67,7 +67,7 @@ export default function ProductCard({ product }) {
             <button
               onClick={handleAddToCart}
               disabled={product.stock === 0}
-              className="w-9 h-9 rounded-full gradient-brand text-white flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition-opacity"
+              className="w-9 h-9 rounded-full btn-accent flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition-opacity"
               aria-label="Add to cart"
             >
               <FaShoppingCart className="text-sm" />

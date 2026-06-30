@@ -24,6 +24,9 @@ export default function VendorProfile() {
         contact_email: company.contact_email,
         contact_phone: company.contact_phone,
         logo_url: company.logo_url,
+        payout_method: company.payout_method || 'mpesa',
+        mpesa_phone: company.mpesa_phone || '',
+        paypal_email: company.paypal_email || '',
       })
     }
   }, [company])
@@ -80,9 +83,35 @@ export default function VendorProfile() {
           value={form.logo_url} onChange={(e) => setForm({ ...form, logo_url: e.target.value })}
           placeholder="Logo URL (optional)" className="sm:col-span-2 px-4 py-2.5 rounded-xl bg-purple-50 focus:outline-none"
         />
+
+        <div className="sm:col-span-2 border-t border-purple-50 pt-4 mt-1">
+          <h3 className="font-semibold text-gray-900 mb-1">Payout Details</h3>
+          <p className="text-xs text-gray-400 mb-3">
+            Where your share of each sale (after the platform commission) is sent when the admin releases a payout.
+          </p>
+        </div>
+        <select
+          value={form.payout_method} onChange={(e) => setForm({ ...form, payout_method: e.target.value })}
+          className="sm:col-span-2 px-4 py-2.5 rounded-xl bg-purple-50 focus:outline-none"
+        >
+          <option value="mpesa">M-Pesa</option>
+          <option value="paypal">PayPal</option>
+        </select>
+        {form.payout_method === 'mpesa' ? (
+          <input
+            value={form.mpesa_phone} onChange={(e) => setForm({ ...form, mpesa_phone: e.target.value })}
+            placeholder="M-Pesa phone, e.g. 0712345678" className="sm:col-span-2 px-4 py-2.5 rounded-xl bg-purple-50 focus:outline-none"
+          />
+        ) : (
+          <input
+            type="email" value={form.paypal_email} onChange={(e) => setForm({ ...form, paypal_email: e.target.value })}
+            placeholder="PayPal email" className="sm:col-span-2 px-4 py-2.5 rounded-xl bg-purple-50 focus:outline-none"
+          />
+        )}
+
         <button
           type="submit" disabled={saving}
-          className="sm:col-span-2 gradient-brand text-white font-semibold py-3 rounded-full flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
+          className="sm:col-span-2 btn-accent font-semibold py-3 rounded-full flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
         >
           <FaSave /> {saving ? 'Saving...' : 'Save Changes'}
         </button>

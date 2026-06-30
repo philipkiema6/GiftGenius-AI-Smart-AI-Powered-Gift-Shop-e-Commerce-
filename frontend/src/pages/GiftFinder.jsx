@@ -113,7 +113,7 @@ export default function GiftFinder() {
           <button
             type="submit"
             disabled={loading}
-            className="gradient-brand text-white font-semibold px-8 py-3 rounded-full flex items-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
+            className="btn-accent font-semibold px-8 py-3 rounded-full flex items-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
           >
             <FaMagic /> {loading ? 'Finding gifts...' : 'Find My Gift'}
           </button>
@@ -164,7 +164,7 @@ export default function GiftFinder() {
                     </div>
                     <button
                       onClick={() => addItem(rec.product, 1).catch(() => toast.error('Could not add to cart'))}
-                      className="mt-auto flex items-center justify-center gap-2 gradient-brand text-white text-sm font-semibold py-2 rounded-full mt-3 hover:opacity-90 transition-opacity"
+                      className="mt-auto flex items-center justify-center gap-2 btn-accent text-sm font-semibold py-2 rounded-full mt-3 hover:opacity-90 transition-opacity"
                     >
                       <FaShoppingCart /> Add to Cart
                     </button>

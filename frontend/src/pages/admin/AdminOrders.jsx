@@ -3,11 +3,21 @@ import toast from 'react-hot-toast'
 import * as orderService from '../../services/orderService'
 import Spinner from '../../components/ui/Spinner'
 
-const STATUSES = ['pending', 'processing', 'completed', 'cancelled']
+const STATUSES = ['awaiting_payment', 'payment_failed', 'paid', 'processing', 'completed', 'cancelled']
+const STATUS_LABELS = {
+  awaiting_payment: 'Awaiting Payment',
+  payment_failed: 'Payment Failed',
+  paid: 'Paid',
+  processing: 'Processing',
+  completed: 'Completed',
+  cancelled: 'Cancelled',
+}
 
 const STATUS_STYLES = {
-  pending: 'bg-amber-100 text-amber-700',
-  processing: 'bg-blue-100 text-blue-700',
+  awaiting_payment: 'bg-amber-100 text-amber-700',
+  payment_failed: 'bg-red-100 text-red-700',
+  paid: 'bg-blue-100 text-blue-700',
+  processing: 'bg-indigo-100 text-indigo-700',
   completed: 'bg-emerald-100 text-emerald-700',
   cancelled: 'bg-red-100 text-red-700',
 }
@@ -65,9 +75,9 @@ export default function AdminOrders() {
                   <select
                     value={order.status}
                     onChange={(e) => handleStatusChange(order, e.target.value)}
-                    className={`text-xs font-semibold px-3 py-1.5 rounded-full capitalize border-0 ${STATUS_STYLES[order.status]}`}
+                    className={`text-xs font-semibold px-3 py-1.5 rounded-full border-0 ${STATUS_STYLES[order.status]}`}
                   >
-                    {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                    {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}
                   </select>
                 </td>
               </tr>

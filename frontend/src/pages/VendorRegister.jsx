@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import { FaStore, FaUser, FaLock, FaEnvelope } from 'react-icons/fa'
 import { useAuth } from '../context/AuthContext'
+import { getErrorMessage } from '../services/api'
 
 const initialForm = {
   username: '', email: '', password: '', password2: '',
@@ -26,9 +27,7 @@ export default function VendorRegister() {
       toast.success('Company account created! Your listing is pending admin approval.')
       navigate('/vendor', { replace: true })
     } catch (err) {
-      const data = err.response?.data
-      const message = data ? Object.values(data).flat()[0] : 'Registration failed'
-      toast.error(message)
+      toast.error(getErrorMessage(err, 'Registration failed'))
     } finally {
       setLoading(false)
     }
@@ -95,7 +94,7 @@ export default function VendorRegister() {
           </div>
           <button
             type="submit" disabled={loading}
-            className="w-full gradient-brand text-white font-semibold py-3 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
+            className="w-full btn-accent font-semibold py-3 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
           >
             {loading ? 'Creating company account...' : 'Register Company'}
           </button>

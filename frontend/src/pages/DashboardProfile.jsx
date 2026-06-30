@@ -80,7 +80,7 @@ export default function DashboardProfile() {
         />
         <button
           type="submit" disabled={savingProfile}
-          className="sm:col-span-2 gradient-brand text-white font-semibold py-3 rounded-full flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
+          className="sm:col-span-2 btn-accent font-semibold py-3 rounded-full flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-50"
         >
           <FaSave /> {savingProfile ? 'Saving...' : 'Save Changes'}
         </button>

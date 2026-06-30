@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  FaGift, FaShoppingCart, FaHeart, FaUserCircle, FaBars, FaTimes, FaSearch,
+  FaShoppingCart, FaHeart, FaUserCircle, FaBars, FaTimes, FaSearch,
 } from 'react-icons/fa'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
+import Logo from './Logo'
 
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
@@ -29,13 +30,8 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-purple-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 gap-4">
-        <Link to="/" className="flex items-center gap-2 shrink-0">
-          <span className="w-9 h-9 rounded-xl gradient-brand flex items-center justify-center text-white">
-            <FaGift />
-          </span>
-          <span className="font-display font-bold text-lg text-brand-purple-dark hidden sm:block">
-            GiftGenius <span className="gradient-gold-text">AI</span>
-          </span>
+        <Link to="/" className="flex items-center shrink-0">
+          <Logo />
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -98,7 +94,7 @@ export default function Navbar() {
           ) : (
             <Link
               to="/login"
-              className="hidden md:inline-flex gradient-brand text-white text-sm font-semibold px-4 py-2 rounded-full hover:opacity-90 transition-opacity"
+              className="hidden md:inline-flex btn-accent text-sm font-semibold px-4 py-2 rounded-full hover:opacity-90 transition-opacity"
             >
               Sign In
             </Link>
@@ -144,7 +140,7 @@ export default function Navbar() {
                   <button onClick={() => { logout(); setOpen(false) }} className="text-left text-red-500 font-medium">Logout</button>
                 </>
               ) : (
-                <Link to="/login" onClick={() => setOpen(false)} className="gradient-brand text-white text-center font-semibold py-2 rounded-full">
+                <Link to="/login" onClick={() => setOpen(false)} className="btn-accent text-center font-semibold py-2 rounded-full">
                   Sign In
                 </Link>
               )}

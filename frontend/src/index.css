@@ -1,13 +1,26 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-purple: #6d28d9;
-  --color-brand-purple-dark: #4c1d95;
-  --color-brand-purple-light: #a78bfa;
-  --color-brand-gold: #d4af37;
-  --color-brand-gold-light: #f3d57f;
-  --color-brand-pink: #ec4899;
-  --color-brand-pink-light: #f9a8d4;
+  /* Amazon-style system: blackish navy + white, orange used sparingly as the one accent. */
+  --color-brand-purple: #131921;
+  --color-brand-purple-dark: #0a0e13;
+  --color-brand-purple-light: #37475a;
+  --color-brand-gold: #ff9900;
+  --color-brand-gold-light: #ffc266;
+  --color-brand-pink: #ff9900;
+  --color-brand-pink-light: #ffc266;
+
+  /* Override Tailwind's built-in purple/pink scales so every bg-purple-50,
+     border-purple-100, text-purple-900, bg-pink-50 etc. across the app
+     re-skins to this palette without touching each component. */
+  --color-purple-50: #f3f3f3;
+  --color-purple-100: #e7e7e7;
+  --color-purple-200: #d5d5d5;
+  --color-purple-300: #bfbfbf;
+  --color-purple-400: #9a9a9a;
+  --color-purple-900: #131921;
+  --color-pink-50: #fff4e5;
+  --color-pink-200: #ffd699;
 
   --font-display: 'Poppins', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
@@ -19,8 +32,8 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: #faf8fc;
-  color: #1f1530;
+  background-color: #f3f3f3;
+  color: #111111;
 }
 
 h1, h2, h3, h4 {
@@ -37,14 +50,20 @@ h1, h2, h3, h4 {
 }
 
 .gradient-brand {
-  background-image: linear-gradient(135deg, var(--color-brand-purple) 0%, var(--color-brand-pink) 100%);
+  background-image: linear-gradient(135deg, var(--color-brand-purple) 0%, #232f3e 100%);
+}
+
+.btn-accent {
+  background-color: var(--color-brand-gold);
+  color: #111111;
+}
+
+.btn-accent:hover {
+  background-color: #e88a00;
 }
 
 .gradient-gold-text {
-  background-image: linear-gradient(135deg, var(--color-brand-gold) 0%, var(--color-brand-pink) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--color-brand-gold);
 }
 
 .skeleton {

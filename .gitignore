@@ -13,6 +13,14 @@ venv
 frontend/node_modules/
 frontend/dist/
 
+# ngrok (portable binary + local tunnel config, never commit)
+tools/ngrok.exe
+tools/*.yml
+*.ngrok.yml
+
+# M-Pesa B2C certificate (download yourself, see payments/certs/README.md)
+backend/payments/certs/*.cer
+
 # Env files
 .env.local
 *.env.production

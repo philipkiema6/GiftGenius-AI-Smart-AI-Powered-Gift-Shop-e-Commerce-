@@ -92,14 +92,14 @@ export default function ProductDetail() {
             <button
               onClick={handleAddToCart}
               disabled={product.stock === 0}
-              className="flex-1 gradient-brand text-white font-semibold py-3.5 rounded-full flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-40"
+              className="flex-1 btn-accent font-semibold py-3.5 rounded-full flex items-center justify-center gap-2 hover:opacity-90 transition-opacity disabled:opacity-40"
             >
               <FaShoppingCart /> Add to Cart
             </button>
             <button
               onClick={() => toggleWishlist(product).catch(() => toast.error('Could not update wishlist'))}
               className={`w-14 h-14 rounded-full flex items-center justify-center border transition-colors ${
-                wishlisted ? 'bg-pink-50 text-brand-pink border-pink-200' : 'border-purple-100 text-gray-500 hover:text-brand-pink'
+                wishlisted ? 'bg-orange-50 text-brand-pink border-orange-200' : 'border-purple-100 text-gray-500 hover:text-brand-pink'
               }`}
             >
               <FaHeart />

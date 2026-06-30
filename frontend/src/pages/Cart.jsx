@@ -77,7 +77,7 @@ export default function Cart() {
           </div>
           <Link
             to="/checkout"
-            className="w-full gradient-brand text-white font-semibold py-3 rounded-full flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+            className="w-full btn-accent font-semibold py-3 rounded-full flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
           >
             Proceed to Checkout <FaArrowRight />
           </Link>

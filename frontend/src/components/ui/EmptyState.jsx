@@ -7,7 +7,7 @@ export default function EmptyState({ icon, title, message, actionLabel, actionTo
       <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
       {message && <p className="text-sm text-gray-500 mt-1 max-w-sm">{message}</p>}
       {actionLabel && actionTo && (
-        <Link to={actionTo} className="mt-5 gradient-brand text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity">
+        <Link to={actionTo} className="mt-5 btn-accent text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity">
           {actionLabel}
         </Link>
       )}

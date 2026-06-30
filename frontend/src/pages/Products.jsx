@@ -220,7 +220,7 @@ export default function Products() {
                       key={i}
                       onClick={() => setPage(i + 1)}
                       className={`w-9 h-9 rounded-full text-sm font-medium ${
-                        page === i + 1 ? 'gradient-brand text-white' : 'bg-white border border-purple-100 text-gray-600'
+                        page === i + 1 ? 'btn-accent' : 'bg-white border border-purple-100 text-gray-600'
                       }`}
                     >
                       {i + 1}

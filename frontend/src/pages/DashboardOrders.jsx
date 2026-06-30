@@ -4,9 +4,20 @@ import * as orderService from '../services/orderService'
 import EmptyState from '../components/ui/EmptyState'
 import Spinner from '../components/ui/Spinner'
 
+const STATUS_LABELS = {
+  awaiting_payment: 'Awaiting Payment',
+  payment_failed: 'Payment Failed',
+  paid: 'Paid',
+  processing: 'Processing',
+  completed: 'Completed',
+  cancelled: 'Cancelled',
+}
+
 const STATUS_STYLES = {
-  pending: 'bg-amber-100 text-amber-700',
-  processing: 'bg-blue-100 text-blue-700',
+  awaiting_payment: 'bg-amber-100 text-amber-700',
+  payment_failed: 'bg-red-100 text-red-700',
+  paid: 'bg-blue-100 text-blue-700',
+  processing: 'bg-indigo-100 text-indigo-700',
   completed: 'bg-emerald-100 text-emerald-700',
   cancelled: 'bg-red-100 text-red-700',
 }
@@ -50,8 +61,8 @@ export default function DashboardOrders() {
                 <p className="font-semibold text-gray-900">Order #{order.id}</p>
                 <p className="text-xs text-gray-400">{new Date(order.created_at).toLocaleDateString()}</p>
               </div>
-              <span className={`text-xs font-semibold px-3 py-1 rounded-full capitalize ${STATUS_STYLES[order.status]}`}>
-                {order.status}
+              <span className={`text-xs font-semibold px-3 py-1 rounded-full ${STATUS_STYLES[order.status]}`}>
+                {STATUS_LABELS[order.status] || order.status}
               </span>
             </div>
             <div className="space-y-1 mb-3">

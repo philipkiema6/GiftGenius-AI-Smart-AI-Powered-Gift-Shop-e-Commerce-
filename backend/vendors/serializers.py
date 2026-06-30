@@ -2,6 +2,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
 from rest_framework import serializers
 
+from orders.models import OrderItem
 from users.models import User
 
 from .models import Company
@@ -14,7 +15,8 @@ class CompanySerializer(serializers.ModelSerializer):
         model = Company
         fields = (
             'id', 'name', 'description', 'contact_email', 'contact_phone',
-            'logo_url', 'status', 'product_count', 'created_at',
+            'logo_url', 'status', 'payout_method', 'mpesa_phone', 'paypal_email',
+            'product_count', 'created_at',
         )
         read_only_fields = ('id', 'status', 'created_at')
 
@@ -36,7 +38,24 @@ class CompanyAdminListSerializer(serializers.ModelSerializer):
         model = Company
         fields = (
             'id', 'name', 'username', 'description', 'contact_email', 'contact_phone',
-            'status', 'product_count', 'created_at',
+            'status', 'payout_method', 'mpesa_phone', 'paypal_email', 'product_count', 'created_at',
+        )
+
+
+class VendorSaleItemSerializer(serializers.ModelSerializer):
+    """One line item sold from the vendor's own catalogue."""
+    order_id = serializers.IntegerField(source='order.id', read_only=True)
+    order_status = serializers.CharField(source='order.status', read_only=True)
+    order_date = serializers.DateTimeField(source='order.created_at', read_only=True)
+    product_name = serializers.CharField(source='product.name', read_only=True)
+    product_image = serializers.CharField(source='product.image', read_only=True)
+    subtotal = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
+
+    class Meta:
+        model = OrderItem
+        fields = (
+            'id', 'order_id', 'order_date', 'order_status',
+            'product', 'product_name', 'product_image', 'quantity', 'price', 'subtotal',
         )
 
 

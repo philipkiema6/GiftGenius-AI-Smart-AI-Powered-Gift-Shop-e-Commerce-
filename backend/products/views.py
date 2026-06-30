@@ -101,7 +101,9 @@ class SalesStatsView(APIView):
         from users.models import User
 
         total_orders = Order.objects.count()
-        total_revenue = Order.objects.filter(status='completed').aggregate(
+        # Revenue counts anything actually paid for, not just fulfilled -
+        # an order sits at 'paid'/'processing' before it reaches 'completed'.
+        total_revenue = Order.objects.filter(status__in=['paid', 'processing', 'completed']).aggregate(
             total=Sum('total_amount')
         )['total'] or 0
         total_users = User.objects.count()

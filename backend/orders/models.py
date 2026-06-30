@@ -5,31 +5,31 @@ from products.models import Product
 
 
 class Order(models.Model):
+    # No "cash on delivery" - an order only becomes real once payment clears.
     STATUS_CHOICES = [
-        ('pending', 'Pending'),
+        ('awaiting_payment', 'Awaiting Payment'),
+        ('payment_failed', 'Payment Failed'),
+        ('paid', 'Paid'),
         ('processing', 'Processing'),
         ('completed', 'Completed'),
         ('cancelled', 'Cancelled'),
     ]
 
     PAYMENT_CHOICES = [
-        ('cod', 'Cash on Delivery'),
         ('mpesa', 'M-Pesa'),
+        ('paypal', 'PayPal'),
     ]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders')
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    payment_method = models.CharField(max_length=10, choices=PAYMENT_CHOICES, default='cod')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='awaiting_payment')
+    payment_method = models.CharField(max_length=10, choices=PAYMENT_CHOICES)
 
     full_name = models.CharField(max_length=150)
     phone_number = models.CharField(max_length=20)
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     notes = models.TextField(blank=True)
-
-    # Placeholder field for a future real M-Pesa STK push integration
-    mpesa_reference = models.CharField(max_length=50, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

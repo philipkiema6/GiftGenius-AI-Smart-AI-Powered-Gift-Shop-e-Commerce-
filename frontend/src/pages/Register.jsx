@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
-import { FaGift, FaUser, FaLock, FaEnvelope } from 'react-icons/fa'
+import { FaUser, FaLock, FaEnvelope } from 'react-icons/fa'
 import { useAuth } from '../context/AuthContext'
+import { getErrorMessage } from '../services/api'
+import Logo from '../components/Logo'
 
 const initialForm = { username: '', email: '', first_name: '', last_name: '', password: '', password2: '' }
 
@@ -23,9 +25,7 @@ export default function Register() {
       toast.success('Account created! Welcome to GiftGenius AI.')
       navigate('/dashboard', { replace: true })
     } catch (err) {
-      const data = err.response?.data
-      const message = data ? Object.values(data).flat()[0] : 'Registration failed'
-      toast.error(message)
+      toast.error(getErrorMessage(err, 'Registration failed'))
     } finally {
       setLoading(false)
     }
@@ -39,8 +39,8 @@ export default function Register() {
         className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-purple-50 p-8"
       >
         <div className="flex flex-col items-center mb-6">
-          <span className="w-12 h-12 rounded-2xl gradient-brand flex items-center justify-center text-white text-xl mb-3">
-            <FaGift />
+          <span className="mb-3">
+            <Logo />
           </span>
           <h1 className="text-2xl font-display font-bold text-gray-900">Create your account</h1>
           <p className="text-sm text-gray-500 mt-1">Join GiftGenius AI and never miss a gift again</p>
@@ -113,7 +113,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full gradient-brand text-white font-semibold py-3 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
+            className="w-full btn-accent font-semibold py-3 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
           >
             {loading ? 'Creating account...' : 'Create Account'}
           </button>

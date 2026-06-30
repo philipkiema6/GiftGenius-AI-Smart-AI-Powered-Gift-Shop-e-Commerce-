@@ -61,4 +61,19 @@ api.interceptors.response.use(
   }
 )
 
+export function getErrorMessage(err, fallback = 'Something went wrong. Please try again.') {
+  if (!err.response) {
+    // Request never got a response: server down, wrong API URL, CORS/Private
+    // Network Access block, offline, etc. Showing a credential-style message
+    // here would hide the real problem.
+    return 'Could not reach the server. Check your connection and that the API is running.'
+  }
+  const data = err.response.data
+  if (!data) return fallback
+  if (data.non_field_errors?.[0]) return data.non_field_errors[0]
+  if (data.detail) return data.detail
+  const firstValue = Object.values(data).flat()[0]
+  return firstValue || fallback
+}
+
 export default api

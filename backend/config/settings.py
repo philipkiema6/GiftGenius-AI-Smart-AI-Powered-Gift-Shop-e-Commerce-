@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'reminders',
     'recommendations',
     'vendors',
+    'payments',
 ]
 
 MIDDLEWARE = [
@@ -145,5 +146,42 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5180',
     'http://127.0.0.1:5180',
+     "http://172.21.64.1:5180",
+    "http://192.168.56.1:5180",
+    "http://192.168.1.120:5180",
 ]
 CORS_ALLOW_CREDENTIALS = True
+
+# --- Payments -----------------------------------------------------------
+# Percentage of each sale the platform keeps; the rest is owed to the
+# supplying vendor (tracked in payments.VendorPayout, settled via the
+# admin dashboard's "Pay" action).
+PLATFORM_COMMISSION_PERCENT = float(os.environ.get('PLATFORM_COMMISSION_PERCENT', '15'))
+
+# M-Pesa (Safaricom Daraja). Set MPESA_ENV=production and swap every
+# MPESA_* value below to go live - the code path is identical.
+MPESA_ENV = os.environ.get('MPESA_ENV', 'sandbox')
+MPESA_CONSUMER_KEY = os.environ.get('MPESA_CONSUMER_KEY', '')
+MPESA_CONSUMER_SECRET = os.environ.get('MPESA_CONSUMER_SECRET', '')
+MPESA_SHORTCODE = os.environ.get('MPESA_SHORTCODE', '174379')
+MPESA_PASSKEY = os.environ.get('MPESA_PASSKEY', '')
+# Must be a publicly reachable HTTPS URL (e.g. an ngrok forwarding URL in
+# dev) - Safaricom's servers call this directly, localhost will not work.
+MPESA_CALLBACK_URL = os.environ.get('MPESA_CALLBACK_URL', '')
+# B2C (vendor payouts) - separate Daraja product, needs its own sandbox
+# credentials and the Safaricom-issued certificate for SecurityCredential.
+MPESA_INITIATOR_NAME = os.environ.get('MPESA_INITIATOR_NAME', '')
+MPESA_INITIATOR_PASSWORD = os.environ.get('MPESA_INITIATOR_PASSWORD', '')
+MPESA_CERT_PATH = os.environ.get('MPESA_CERT_PATH', str(BASE_DIR / 'payments' / 'certs' / 'sandbox_cert.cer'))
+MPESA_B2C_RESULT_URL = os.environ.get('MPESA_B2C_RESULT_URL', '')
+MPESA_B2C_TIMEOUT_URL = os.environ.get('MPESA_B2C_TIMEOUT_URL', '')
+
+# PayPal. Set PAYPAL_ENV=live and swap the client id/secret to go live.
+PAYPAL_ENV = os.environ.get('PAYPAL_ENV', 'sandbox')
+PAYPAL_CLIENT_ID = os.environ.get('PAYPAL_CLIENT_ID', '')
+PAYPAL_CLIENT_SECRET = os.environ.get('PAYPAL_CLIENT_SECRET', '')
+PAYPAL_CURRENCY = os.environ.get('PAYPAL_CURRENCY', 'USD')
+# Static approximation for converting KSh prices to PayPal's currency.
+# This is NOT a live exchange rate - fine for a sandbox demo, but a real
+# deployment should call a live FX rate API instead.
+KES_TO_USD_RATE = float(os.environ.get('KES_TO_USD_RATE', '0.0078'))

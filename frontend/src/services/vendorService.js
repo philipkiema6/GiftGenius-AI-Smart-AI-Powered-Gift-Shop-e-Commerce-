@@ -9,6 +9,8 @@ export const createVendorProduct = (payload) => api.post('/vendors/products/', p
 export const updateVendorProduct = (id, payload) => api.patch(`/vendors/products/${id}/`, payload).then((r) => r.data)
 export const deleteVendorProduct = (id) => api.delete(`/vendors/products/${id}/`)
 
+export const getVendorSales = () => api.get('/vendors/sales/').then((r) => r.data)
+
 // Admin-only
 export const adminListCompanies = () => api.get('/vendors/companies/').then((r) => r.data)
 export const adminUpdateCompanyStatus = (id, status) =>

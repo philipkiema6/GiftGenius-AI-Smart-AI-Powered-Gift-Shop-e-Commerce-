@@ -4,6 +4,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from cart.models import CartItem
+from payments import mpesa, paypal
+from payments.models import Payment
+from payments.services import kes_to_usd
 
 from .models import Order, OrderItem
 from .serializers import CheckoutSerializer, OrderSerializer
@@ -51,10 +54,9 @@ class OrderStatusUpdateView(APIView):
 
 
 class CheckoutView(APIView):
-    """POST /api/orders/checkout/ - converts the current cart into an Order.
-
-    Stock is decremented and the cart cleared atomically so a failure
-    midway never leaves stock or the cart in an inconsistent state.
+    """POST /api/orders/checkout/ - reserves the cart as an Order and kicks
+    off payment. The order only becomes 'paid' once M-Pesa's callback or a
+    PayPal capture actually confirms the money moved - see payments/services.py.
     """
     permission_classes = [permissions.IsAuthenticated]
 
@@ -62,6 +64,8 @@ class CheckoutView(APIView):
     def post(self, request):
         serializer = CheckoutSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        mpesa_phone = data.pop('mpesa_phone', None)
 
         cart_items = CartItem.objects.filter(user=request.user).select_related('product')
         if not cart_items.exists():
@@ -75,19 +79,58 @@ class CheckoutView(APIView):
                 )
 
         total_amount = sum(item.subtotal for item in cart_items)
-        order = Order.objects.create(
-            user=request.user, total_amount=total_amount, status='pending', **serializer.validated_data
-        )
+        order = Order.objects.create(user=request.user, total_amount=total_amount, **data)
 
         for cart_item in cart_items:
             OrderItem.objects.create(
-                order=order,
-                product=cart_item.product,
-                quantity=cart_item.quantity,
-                price=cart_item.product.price,
+                order=order, product=cart_item.product, quantity=cart_item.quantity, price=cart_item.product.price,
             )
-            cart_item.product.stock -= cart_item.quantity
-            cart_item.product.save()
+        # Stock is intentionally NOT decremented here - only once payment clears.
 
-        cart_items.delete()
-        return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
+        payment = Payment.objects.create(order=order, method=data['payment_method'], amount=total_amount)
+
+        if data['payment_method'] == 'mpesa':
+            return self._start_mpesa(order, payment, mpesa_phone)
+        return self._start_paypal(order, payment)
+
+    def _start_mpesa(self, order, payment, phone):
+        try:
+            result = mpesa.stk_push(phone, payment.amount, account_reference=f'GG-Order-{order.id}')
+        except mpesa.MpesaError as exc:
+            order.status = 'payment_failed'
+            order.save()
+            payment.status = 'failed'
+            payment.failure_reason = str(exc)
+            payment.save()
+            return Response({'detail': f'Could not start M-Pesa payment: {exc}'}, status=status.HTTP_502_BAD_GATEWAY)
+
+        payment.provider_reference = result.get('CheckoutRequestID', '')
+        payment.raw_response = result
+        payment.save()
+        return Response(
+            {'order': OrderSerializer(order).data, 'message': 'Check your phone to complete payment.'},
+            status=status.HTTP_201_CREATED,
+        )
+
+    def _start_paypal(self, order, payment):
+        try:
+            result = paypal.create_order(kes_to_usd(payment.amount), currency='USD')
+        except paypal.PaypalError as exc:
+            order.status = 'payment_failed'
+            order.save()
+            payment.status = 'failed'
+            payment.failure_reason = str(exc)
+            payment.save()
+            return Response({'detail': f'Could not start PayPal payment: {exc}'}, status=status.HTTP_502_BAD_GATEWAY)
+
+        payment.provider_reference = result['id']
+        payment.raw_response = result
+        payment.save()
+        return Response(
+            {
+                'order': OrderSerializer(order).data,
+                'paypal_order_id': result['id'],
+                'paypal_amount_usd': kes_to_usd(payment.amount),
+            },
+            status=status.HTTP_201_CREATED,
+        )

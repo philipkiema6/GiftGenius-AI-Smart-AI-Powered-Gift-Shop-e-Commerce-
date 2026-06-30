@@ -51,7 +51,7 @@ export default function DashboardReminders() {
         <h1 className="text-2xl font-display font-bold text-gray-900">Saved Reminders</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 gradient-brand text-white text-sm font-semibold px-4 py-2.5 rounded-full hover:opacity-90 transition-opacity"
+          className="flex items-center gap-2 btn-accent text-sm font-semibold px-4 py-2.5 rounded-full hover:opacity-90 transition-opacity"
         >
           <FaPlus /> Add Reminder
         </button>
@@ -79,7 +79,7 @@ export default function DashboardReminders() {
             value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })}
             placeholder="Notes (optional)" className="px-4 py-2.5 rounded-xl bg-purple-50 focus:outline-none"
           />
-          <button type="submit" className="sm:col-span-2 gradient-brand text-white font-semibold py-3 rounded-full hover:opacity-90 transition-opacity">
+          <button type="submit" className="sm:col-span-2 btn-accent font-semibold py-3 rounded-full hover:opacity-90 transition-opacity">
             Save Reminder
           </button>
         </form>

@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
-  FaMagic, FaGem, FaSeedling, FaPenFancy, FaLaptop, FaGifts, FaQuoteLeft, FaArrowRight,
+  FaGem, FaSeedling, FaPenFancy, FaLaptop, FaGifts, FaQuoteLeft, FaArrowRight,
 } from 'react-icons/fa'
 import * as productService from '../services/productService'
 import ProductCard from '../components/ProductCard'
 import ProductGridSkeleton from '../components/ui/ProductGridSkeleton'
+import HeroCarousel from '../components/HeroCarousel'
 
 const CATEGORY_ICONS = {
   jewelry: <FaGem />,
@@ -57,42 +58,7 @@ export default function Landing() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden gradient-brand">
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_20%,white,transparent_35%)]" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-2xl text-white"
-          >
-            <span className="inline-flex items-center gap-2 bg-white/15 px-4 py-1.5 rounded-full text-sm font-medium mb-5">
-              <FaMagic /> AI-Powered Gift Discovery
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold leading-tight mb-5">
-              Find the <span className="gradient-gold-text">perfect gift</span> for anyone, every time.
-            </h1>
-            <p className="text-lg text-purple-100 mb-8 max-w-xl">
-              Tell us their age, relationship, occasion and budget — our AI Gift Finder instantly
-              suggests thoughtful gifts they'll actually love.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                to="/gift-finder"
-                className="bg-white text-brand-purple-dark font-semibold px-6 py-3 rounded-full hover:bg-purple-50 transition-colors flex items-center gap-2"
-              >
-                Find a Gift Now <FaArrowRight />
-              </Link>
-              <Link
-                to="/products"
-                className="border border-white/60 text-white font-semibold px-6 py-3 rounded-full hover:bg-white/10 transition-colors"
-              >
-                Browse All Gifts
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <HeroCarousel />
 
       {/* Categories */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -185,7 +151,7 @@ export default function Landing() {
               placeholder="Enter your email"
               className="flex-1 px-4 py-3 rounded-full text-gray-900 focus:outline-none"
             />
-            <button type="submit" className="bg-white text-brand-purple-dark font-semibold px-6 py-3 rounded-full hover:bg-purple-50 transition-colors">
+            <button type="submit" className="btn-accent font-semibold px-6 py-3 rounded-full hover:opacity-90 transition-opacity">
               Subscribe
             </button>
           </form>

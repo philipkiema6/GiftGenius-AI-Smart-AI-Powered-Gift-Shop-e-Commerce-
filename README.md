@@ -123,7 +123,7 @@ docker compose up --build
 
 This starts:
 - **db** — Postgres 17, host port `5433`
-- **backend** — Django, host port `8090` (runs migrations automatically on start)
+- **backend** — Django, host port `8000` (runs migrations automatically on start)
 - **frontend** — Vite dev server, host port `5180`
 
 Note: `db` publishes to host port `5433`. If you already have a Postgres

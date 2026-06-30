@@ -76,7 +76,7 @@ export default function VendorProductFormModal({ product, categories, onClose, o
             <button type="button" onClick={onClose} className="flex-1 border border-purple-100 text-gray-600 font-semibold py-3 rounded-full">
               Cancel
             </button>
-            <button type="submit" className="flex-1 gradient-brand text-white font-semibold py-3 rounded-full hover:opacity-90 transition-opacity">
+            <button type="submit" className="flex-1 btn-accent font-semibold py-3 rounded-full hover:opacity-90 transition-opacity">
               {product ? 'Save Changes' : 'Submit for Review'}
             </button>
           </div>

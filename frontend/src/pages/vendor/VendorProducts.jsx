@@ -76,7 +76,7 @@ export default function VendorProducts() {
         <h1 className="text-2xl font-display font-bold text-gray-900">My Products</h1>
         <button
           onClick={openCreate}
-          className="flex items-center gap-2 gradient-brand text-white text-sm font-semibold px-4 py-2.5 rounded-full hover:opacity-90 transition-opacity disabled:opacity-50"
+          className="flex items-center gap-2 btn-accent text-sm font-semibold px-4 py-2.5 rounded-full hover:opacity-90 transition-opacity disabled:opacity-50"
         >
           <FaPlus /> List Product
         </button>

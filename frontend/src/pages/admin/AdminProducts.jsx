@@ -90,7 +90,7 @@ export default function AdminProducts() {
           >
             <FaClock /> Pending review {pendingCount > 0 && `(${pendingCount})`}
           </button>
-          <button onClick={openCreate} className="flex items-center gap-2 gradient-brand text-white text-sm font-semibold px-4 py-2.5 rounded-full hover:opacity-90 transition-opacity">
+          <button onClick={openCreate} className="flex items-center gap-2 btn-accent text-sm font-semibold px-4 py-2.5 rounded-full hover:opacity-90 transition-opacity">
             <FaPlus /> Add Product
           </button>
         </div>

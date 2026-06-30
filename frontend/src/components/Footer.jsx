@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import { FaGift, FaFacebook, FaInstagram, FaTwitter, FaEnvelope } from 'react-icons/fa'
+import { FaFacebook, FaInstagram, FaTwitter, FaEnvelope } from 'react-icons/fa'
+import Logo from './Logo'
 
 export default function Footer() {
   const [email, setEmail] = useState('')
@@ -14,14 +15,11 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-[#1f1530] text-purple-100 mt-auto">
+    <footer className="bg-[#131921] text-purple-100 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
         <div>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="w-9 h-9 rounded-xl gradient-brand flex items-center justify-center text-white">
-              <FaGift />
-            </span>
-            <span className="font-display font-bold text-lg text-white">GiftGenius AI</span>
+          <div className="mb-3">
+            <Logo variant="light" />
           </div>
           <p className="text-sm text-purple-300">
             Discover the perfect gift for every person and every occasion, powered by smart recommendations.
@@ -63,7 +61,7 @@ export default function Footer() {
                 className="w-full pl-8 pr-2 py-2 rounded-full text-sm text-gray-900 focus:outline-none"
               />
             </div>
-            <button type="submit" className="gradient-brand text-white text-sm font-semibold px-4 py-2 rounded-full">
+            <button type="submit" className="btn-accent text-sm font-semibold px-4 py-2 rounded-full">
               Join
             </button>
           </form>
@@ -74,7 +72,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="border-t border-purple-900/50 text-center text-xs text-purple-400 py-4">
+      <div className="border-t border-white/10 text-center text-xs text-purple-400 py-4">
         © {new Date().getFullYear()} GiftGenius AI. Final-year Computer Science project. All rights reserved.
       </div>
     </footer>

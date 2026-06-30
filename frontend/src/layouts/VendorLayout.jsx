@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
-import { FaStore, FaBoxOpen, FaExclamationTriangle, FaCheckCircle } from 'react-icons/fa'
+import { FaStore, FaBoxOpen, FaExclamationTriangle, FaCheckCircle, FaShoppingBag, FaMoneyCheckAlt } from 'react-icons/fa'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import * as vendorService from '../services/vendorService'
@@ -8,6 +8,8 @@ import * as vendorService from '../services/vendorService'
 const LINKS = [
   { to: '/vendor', label: 'Company Profile', icon: <FaStore />, end: true },
   { to: '/vendor/products', label: 'My Products', icon: <FaBoxOpen /> },
+  { to: '/vendor/sales', label: 'Sales', icon: <FaShoppingBag /> },
+  { to: '/vendor/earnings', label: 'Earnings', icon: <FaMoneyCheckAlt /> },
 ]
 
 const STATUS_BANNER = {

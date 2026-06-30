@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
-import { FaGift, FaUser, FaLock } from 'react-icons/fa'
+import { FaUser, FaLock } from 'react-icons/fa'
 import { useAuth } from '../context/AuthContext'
+import { getErrorMessage } from '../services/api'
+import Logo from '../components/Logo'
 
 export default function Login() {
   const { login } = useAuth()
@@ -28,7 +30,7 @@ export default function Login() {
         navigate('/dashboard', { replace: true })
       }
     } catch (err) {
-      toast.error(err.response?.data?.non_field_errors?.[0] || 'Invalid username or password')
+      toast.error(getErrorMessage(err, 'Invalid username or password'))
     } finally {
       setLoading(false)
     }
@@ -42,8 +44,8 @@ export default function Login() {
         className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-purple-50 p-8"
       >
         <div className="flex flex-col items-center mb-6">
-          <span className="w-12 h-12 rounded-2xl gradient-brand flex items-center justify-center text-white text-xl mb-3">
-            <FaGift />
+          <span className="mb-3">
+            <Logo />
           </span>
           <h1 className="text-2xl font-display font-bold text-gray-900">Welcome back</h1>
           <p className="text-sm text-gray-500 mt-1">Sign in to continue to GiftGenius AI</p>
@@ -76,7 +78,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full gradient-brand text-white font-semibold py-3 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
+            className="w-full btn-accent font-semibold py-3 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
